@@ -25,13 +25,14 @@ public class RestaurantOrderServicesStub implements RestaurantOrderServices {
     }
 
     @Override
-    public Order getTableOrder(int tableNumber) {
+    public Order getTableOrder(int tableNumber) throws OrderServicesException {
         if (!tableOrders.containsKey(tableNumber)) {
-            return null;
-        } else {
-            return tableOrders.get(tableNumber);
-        }
+            throw new OrderServicesException("Mesa inexistente:" + tableNumber);
+        } 
+        return tableOrders.get(tableNumber);
+        
     }
+    
 
     @Override
     public Set<String> getAvailableProductNames() {
@@ -42,9 +43,9 @@ public class RestaurantOrderServicesStub implements RestaurantOrderServices {
     public RestaurantProduct getProductByName(String product) throws OrderServicesException {
         if (!productsMap.containsKey(product)) {
             throw new OrderServicesException("Producto no existente:" + product);
-        } else {
-            return productsMap.get(product);
-        }
+        } 
+        return productsMap.get(product);
+        
     }
 
     @Override
@@ -57,9 +58,9 @@ public class RestaurantOrderServicesStub implements RestaurantOrderServices {
         if (tableOrders.containsKey(o.getTableNumber())) {
             throw new OrderServicesException("La mesa tiene una orden abierta. Debe "
                     + "cerrarse la cuenta antes de crear una nueva.:" + o.getTableNumber());
-        } else {
-            tableOrders.put(o.getTableNumber(), o);
         }
+        tableOrders.put(o.getTableNumber(), o);
+        
 
     }
 
@@ -67,9 +68,9 @@ public class RestaurantOrderServicesStub implements RestaurantOrderServices {
     public void releaseTable(int tableNumber) throws OrderServicesException {
         if (!tableOrders.containsKey(tableNumber)) {
             throw new OrderServicesException("Mesa inexistente o ya liberada:" + tableNumber);
-        } else {
-            tableOrders.remove(tableNumber);
         }
+        tableOrders.remove(tableNumber);
+        
 
     }
 
@@ -77,9 +78,9 @@ public class RestaurantOrderServicesStub implements RestaurantOrderServices {
     public int calculateTableBill(int tableNumber) throws OrderServicesException {
         if (!tableOrders.containsKey(tableNumber)) {
             throw new OrderServicesException("Mesa inexistente o ya liberada:" + tableNumber);
-        } else {
-            return calc.calculateBill(tableOrders.get(tableNumber), productsMap);
         }
+        return calc.calculateBill(tableOrders.get(tableNumber), productsMap);
+        
     }
 
     private static final Map<String, RestaurantProduct> productsMap;

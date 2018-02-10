@@ -40,35 +40,74 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+
 /**
  *
  * @author hcadavid
  */
+import edu.eci.arsw.myrestaurant.services.OrderServicesException;
+import java.io.IOException;
 @Service
 @RestController
-@RequestMapping(value = "/orders/{idtable}")
+@RequestMapping(value = "/orders")
 public class OrdersAPIController {
     @Autowired
     RestaurantOrderServices ros;
+    
+    Gson g = new Gson();
+    
+    
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> getOrder(@PathVariable String idtable){
+    public ResponseEntity<?> getOrders(){
+        Map<String, Order> map = new HashMap<>();
+        Set<Integer> keys = ros.getTablesWithOrders();
+        keys.forEach((i) -> {
             try {
-                    Set<Integer> keys = ros.getTablesWithOrders();
-                    Map<Integer, String> mapa = new HashMap<Integer, String>();
-                    
-                    int id = Integer.parseInt(idtable);
-                    
-                    mapa.put(id, ros.getTableOrder(id).toString());
-                    /*for(Integer i: keys){
-                        mapa.put(i, ros.getTableOrder(i).toString());
-                    }*/
+                map.put(Integer.toString(i), ros.getTableOrder(i));
+            } catch (OrderServicesException ex) {
+                Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });               
+        String mapToJson = g.toJson(map);
+        return new ResponseEntity<>(mapToJson,HttpStatus.ACCEPTED);
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/{idName}")
+    public ResponseEntity<?> getOrder(@PathVariable String idName){
+        try{
+            Map<String, Order> map = new HashMap<>();
+            //System.out.println(idName);
+            map.put(idName, ros.getTableOrder(Integer.parseInt(idName)));             
+            String mapToJson = g.toJson(map);
+            return new ResponseEntity<>(mapToJson,HttpStatus.ACCEPTED);
+        } catch(OrderServicesException e){
+            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @RequestMapping(method = RequestMethod.POST)	
+    public ResponseEntity<?> addOrder(@RequestBody String order){
+            try {
+                Type listType = new TypeToken<Map<String, Order>>(){}.getType();
+                Map<String, Order> map = g.fromJson(order, listType);
+                Set<String> keys = map.keySet();
+                for(String s: keys){
+                    System.out.println(s+"  ->   "+map.get(s));
+                    ros.addNewOrderToTable(map.get(s));
+                }
+                return new ResponseEntity<>(HttpStatus.CREATED);          
+            } catch(OrderServicesException e){
+                Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, e);
+                return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN); 
+            }
 
-                    String json = new ObjectMapper().writeValueAsString(mapa);
-                
-                return new ResponseEntity<>(json,HttpStatus.ACCEPTED);
-            } catch (JsonProcessingException ex) {
-                    Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
-                    return new ResponseEntity<>("Error, page not found",HttpStatus.NOT_FOUND);
-            }  
-    }      
+    }
 }
