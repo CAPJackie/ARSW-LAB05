@@ -3,7 +3,7 @@
 ### Arquitecturas de Software
 
 
-## Antes de hacer este ejercicio, realice [el ejercicio introductorio al manejo de Spring y la configuración basada en anotaciones](https://github.com/CAPJackie/ARSW-LAB03-INTROe).
+## Antes de hacer este ejercicio, realice [el ejercicio introductorio al manejo de Spring y la configuración basada en anotaciones](https://github.com/CAPJackie/ARSW-LAB03-INTRO).
 
 
 
