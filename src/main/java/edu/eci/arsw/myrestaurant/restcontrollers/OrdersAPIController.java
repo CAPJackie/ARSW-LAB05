@@ -79,12 +79,11 @@ public class OrdersAPIController {
         return new ResponseEntity<>(mapToJson,HttpStatus.ACCEPTED);
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = "/{idName}")
-    public ResponseEntity<?> getOrder(@PathVariable String idName){
+    @RequestMapping(method = RequestMethod.GET, path = "/{idTable}")
+    public ResponseEntity<?> getOrder(@PathVariable String idTable){
         try{
             Map<String, Order> map = new HashMap<>();
-            //System.out.println(idName);
-            map.put(idName, ros.getTableOrder(Integer.parseInt(idName)));             
+            map.put(idTable, ros.getTableOrder(Integer.parseInt(idTable)));             
             String mapToJson = g.toJson(map);
             return new ResponseEntity<>(mapToJson,HttpStatus.ACCEPTED);
         } catch(OrderServicesException e){
@@ -100,7 +99,6 @@ public class OrdersAPIController {
                 Map<String, Order> map = g.fromJson(order, listType);
                 Set<String> keys = map.keySet();
                 for(String s: keys){
-                    System.out.println(s+"  ->   "+map.get(s));
                     ros.addNewOrderToTable(map.get(s));
                 }
                 return new ResponseEntity<>(HttpStatus.CREATED);          
@@ -109,5 +107,15 @@ public class OrdersAPIController {
                 return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN); 
             }
 
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/{idTable}/total")
+    public ResponseEntity<?> getTotalTableBill(@PathVariable String idTable){
+        try {
+            return new ResponseEntity<>("The total bill to pay is: "+ros.calculateTableBill(Integer.parseInt(idTable)),HttpStatus.ACCEPTED);
+        } catch (OrderServicesException ex) {
+            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 }
