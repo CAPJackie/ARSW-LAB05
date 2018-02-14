@@ -1,0 +1,2 @@
+El principal error de esta API es que si se realizan procesos concurrentes, como por ejemplo modificar ordenes y usar servicios GET al mismo tiempo, podria ocasionar inconsistencias en los resultados.
+Para corregir estos errores se debe sincronizar el acceso a los recursos compartidos como por ejemplo a las ordenes registradas en el sistema.
