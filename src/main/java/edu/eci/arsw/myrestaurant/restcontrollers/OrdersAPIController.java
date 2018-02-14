@@ -54,6 +54,7 @@ import java.lang.reflect.Type;
  */
 import edu.eci.arsw.myrestaurant.services.OrderServicesException;
 import java.io.IOException;
+import java.util.ArrayList;
 @Service
 @RestController
 @RequestMapping(value = "/orders")
@@ -118,4 +119,34 @@ public class OrdersAPIController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    
+    @RequestMapping(method = RequestMethod.PUT, path = "{idTable}")
+    public ResponseEntity<?> updateOrder(@PathVariable String idTable, @RequestBody String plato){
+        Type tipo = new TypeToken<Map<String, String>>(){}.getType();
+        Map<String, String> map = g.fromJson(plato, tipo);
+        for(String key: map.keySet()){
+            try {
+                ros.getTableOrder(Integer.parseInt(idTable)).addDish(key, Integer.parseInt(map.get(key)));               
+            } catch (OrderServicesException ex) {
+                Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);               
+        
+    }
+    
+    
+    @RequestMapping(method = RequestMethod.DELETE, path = "{idTable}")
+    public ResponseEntity<?> deleteOrder(@PathVariable String idTable){
+        try {
+            ros.releaseTable(Integer.parseInt(idTable));
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (OrderServicesException ex) {
+            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
 }
+
