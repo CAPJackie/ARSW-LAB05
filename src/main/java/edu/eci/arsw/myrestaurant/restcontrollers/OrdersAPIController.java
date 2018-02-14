@@ -77,7 +77,7 @@ public class OrdersAPIController {
             }
         });               
         String mapToJson = g.toJson(map);
-        return new ResponseEntity<>(mapToJson,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(mapToJson,HttpStatus.OK);
     }
     
     @RequestMapping(method = RequestMethod.GET, path = "/{idTable}")
@@ -86,7 +86,7 @@ public class OrdersAPIController {
             Map<String, Order> map = new HashMap<>();
             map.put(idTable, ros.getTableOrder(Integer.parseInt(idTable)));             
             String mapToJson = g.toJson(map);
-            return new ResponseEntity<>(mapToJson,HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(mapToJson,HttpStatus.OK);
         } catch(OrderServicesException e){
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -102,10 +102,10 @@ public class OrdersAPIController {
                 for(String s: keys){
                     ros.addNewOrderToTable(map.get(s));
                 }
-                return new ResponseEntity<>(HttpStatus.CREATED);          
+                return new ResponseEntity<>(HttpStatus.OK);          
             } catch(OrderServicesException e){
                 Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, e);
-                return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN); 
+                return new ResponseEntity<>(e.getMessage(),HttpStatus.METHOD_NOT_ALLOWED); 
             }
 
     }
@@ -113,7 +113,7 @@ public class OrdersAPIController {
     @RequestMapping(method = RequestMethod.GET, path = "/{idTable}/total")
     public ResponseEntity<?> getTotalTableBill(@PathVariable String idTable){
         try {
-            return new ResponseEntity<>("The total bill to pay is: "+ros.calculateTableBill(Integer.parseInt(idTable)),HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("The total bill to pay is: "+ros.calculateTableBill(Integer.parseInt(idTable)),HttpStatus.OK);
         } catch (OrderServicesException ex) {
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
@@ -130,10 +130,10 @@ public class OrdersAPIController {
                 ros.getTableOrder(Integer.parseInt(idTable)).addDish(key, Integer.parseInt(map.get(key)));               
             } catch (OrderServicesException ex) {
                 Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
             }
         }
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);               
+        return new ResponseEntity<>(HttpStatus.OK);               
         
     }
     
@@ -145,7 +145,8 @@ public class OrdersAPIController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (OrderServicesException ex) {
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+            
         }
     }
 }
