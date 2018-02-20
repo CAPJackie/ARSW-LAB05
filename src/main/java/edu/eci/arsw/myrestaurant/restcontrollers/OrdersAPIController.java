@@ -113,7 +113,7 @@ public class OrdersAPIController {
     @RequestMapping(method = RequestMethod.GET, path = "/{idTable}/total")
     public ResponseEntity<?> getTotalTableBill(@PathVariable String idTable){
         try {
-            return new ResponseEntity<>("The total bill to pay is: "+ros.calculateTableBill(Integer.parseInt(idTable)),HttpStatus.OK);
+            return new ResponseEntity<>(ros.calculateTableBill(Integer.parseInt(idTable)),HttpStatus.OK);
         } catch (OrderServicesException ex) {
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
