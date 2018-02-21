@@ -65,11 +65,10 @@ loadOrdersList = function(){
 errorMessage = function(){
 	alert("There is a problem with our servers. We apologize for the inconvince, please try again later");
 }
-
-$(document).ready(
+/*$(document).ready(
 			function(){
 				loadOrdersList();
 							
 			}
 	
-);
+);*/
