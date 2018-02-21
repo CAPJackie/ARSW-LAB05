@@ -23,9 +23,9 @@
         <div class="inner">
           <!--<h3 class="masthead-brand">Cover</h3>-->
           <nav class="nav nav-masthead justify-content-center">
-			<button onclick="loadOrdersList()">Orders</button>
-            <a class="nav-link active" href="#">Orders</a>
-            <a class="nav-link" href="#">New Order</a>
+            <a class="nav-link active" href="#" onClick="loadOrdersList()">Orders</a>
+            <a class="nav-link" href="#" onClick="addOrder()">New Order</a>
+			<a class="nav-link" href="#" onClick="removeOrderById(2)">Delete Order</a>
           </nav>
         </div>
       </header> 
@@ -36,7 +36,7 @@
 
       <footer class="mastfoot mt-auto">
         <div class="inner">
-          <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+          <p>Restaurant API REST, by <a href="https://github.com/CAPJackie">CAP Jackie</a>.</p>
         </div>
       </footer>
     </div>
@@ -46,7 +46,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="js/jquery-3.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="js/jquery-3.js"> <!--integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"--></script>
     <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="js/popper.js"></script>
     <script src="js/bootstrap.js"></script>
