@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -14,44 +14,46 @@
 
     <!-- Custom styles for this template -->
     <link href="css/cover.css" rel="stylesheet">
-  </head>
+</head>
 
-  <body class="text-center" onload="loadOrdersList()">
-  
-	
+<body class="text-center" onload="OrdersControllerModule.showOrdersByTable()">
 
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
+
+
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
         <div class="inner">
-          <!--<h3 class="masthead-brand">Cover</h3>-->
-          <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="#" onClick="loadOrdersList()">Orders</a>
-            <a class="nav-link" href="#" onClick="addOrder()">New Order</a>
-			<a class="nav-link" href="#" onClick="removeOrderById(2)">Delete Order</a>
-          </nav>
+            <!--<h3 class="masthead-brand">Cover</h3>-->
+            <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link active" href="#" onClick="OrdersControllerModule.showOrdersByTable()">Orders</a>
+                <!--<a class="nav-link" href="#" onClick="addOrder()">New Order</a>
+                <a class="nav-link" href="#" onClick="removeOrderById(2)">Delete Order</a>-->
+            </nav>
         </div>
-      </header> 
-      
-      <main role="main" class="inner cover" id="tablasActuales">
-        
-      </main>
+    </header>
 
-      <footer class="mastfoot mt-auto">
+    <main role="main" class="inner cover" id="actualTables">
+
+    </main>
+
+    <footer class="mastfoot mt-auto">
         <div class="inner">
-          <p>Restaurant API REST, by <a href="https://github.com/CAPJackie">CAP Jackie</a>.</p>
-		  <h5 class="masthead-brand">You can add an static order<br>by clicking on 'New Order',<br>besides if you click 'Delete Order'<br>the static order added will be<br>removed from the view</h5>
+            <p>Restaurant API REST, by <a href="https://github.com/CAPJackie">CAP Jackie</a>.</p>
+            <!--<h5 class="masthead-brand">You can add an static order<br>by clicking on 'New Order',<br>besides if you click 'Delete Order'<br>the static order added will be<br>removed from the view</h5>-->
         </div>
-      </footer>
-    </div>
+    </footer>
+</div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="js/jquery-3.js"> <!--integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"--></script>
-    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/OrdersController.js"></script>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="js/jquery-3.js"> <!--integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"--></script>
+<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/RestaurantRestController.js"></script>
+<script src="js/OrdersController.js"></script>
+
 
 </body></html>
