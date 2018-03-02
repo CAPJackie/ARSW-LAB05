@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="https://getbootstrap.com/favicon.ico">
 
-    <title>Restaurant API REST</title>
+    <title>Update orders</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -23,17 +23,30 @@
 <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
     <header class="masthead mb-auto">
         <div class="inner">
-            <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link active" href="#" onClick="OrdersControllerModule.showOrdersByTable()">Orders</a>
+            <h3 class="masthead-brand">Update Orders</h3>
+			
+            <!--<nav class="nav nav-masthead justify-content-center">-->
+                <!--<a class="nav-link active" href="#" onClick="OrdersControllerModule.showOrdersByTable()">Orders</a>-->
                 <!--<a class="nav-link" href="#" onClick="addOrder()">New Order</a>
                 <a class="nav-link" href="#" onClick="removeOrderById(2)">Delete Order</a>-->
-            </nav>
+            <!--</nav>-->
         </div>
+		
     </header>
+	
+	<div class="row">
+		<div>
+			<select id="orders" onchange=""></select>
+		</div>
+		
+		<form>
+		  <input type="text" name="Item Name" placeholder="Item Name"><br>
+		  <input type="text" name="Quantity" placeholder="Quantity">
+		</form>
+		
+		<button type="button" class="btn">Add</button>
+	</div>
 
-    <main role="main" class="inner cover" id="actualTables">
-
-    </main>
 
     <footer class="mastfoot mt-auto">
         <div class="inner">
