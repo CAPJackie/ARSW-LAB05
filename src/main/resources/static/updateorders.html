@@ -16,7 +16,7 @@
     <link href="css/cover.css" rel="stylesheet">
 </head>
 
-<body class="text-center" onload="OrdersControllerModule.showOrdersByTable()">
+<body class="text-center" onload="OrdersControllerModule.loadSelectOrdersData()">
 
 
 
@@ -34,18 +34,22 @@
 		
     </header>
 	
-	<div class="row">
-		<div>
-			<select id="orders" onchange=""></select>
-		</div>
-		
-		<form>
-		  <input type="text" name="Item Name" placeholder="Item Name"><br>
-		  <input type="text" name="Quantity" placeholder="Quantity">
-		</form>
-		
-		<button type="button" class="btn">Add</button>
-	</div>
+    <div class="row">
+            <div>
+                <select id="orders" onchange="OrdersControllerModule.showSelectedOrder()"></select>
+            </div>
+
+            <form>
+              <input type="text" name="Item Name" placeholder="Item Name"><br>
+              <input type="text" name="Quantity" placeholder="Quantity">
+            </form>
+
+            <button type="button" class="btn">Add</button>
+    </div>
+
+    <table id="actualOrder" class="table table-dark">
+        
+    </table>
 
 
     <footer class="mastfoot mt-auto">
