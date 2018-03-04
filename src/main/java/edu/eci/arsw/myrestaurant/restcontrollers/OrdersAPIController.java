@@ -121,7 +121,7 @@ public class OrdersAPIController {
     }
 
     
-    @RequestMapping(method = RequestMethod.PUT, path = "{idTable}")
+    /*@RequestMapping(method = RequestMethod.PUT, path = "{idTable}")
     public ResponseEntity<?> updateOrder(@PathVariable String idTable, @RequestBody String plato){
         Type tipo = new TypeToken<Map<String, String>>(){}.getType();
         Map<String, String> map = g.fromJson(plato, tipo);
@@ -135,6 +135,17 @@ public class OrdersAPIController {
         }
         return new ResponseEntity<>(HttpStatus.OK);               
         
+    }*/
+
+    @RequestMapping(method = RequestMethod.PUT, path = "{idTable}")
+    public ResponseEntity<?> modifyOrder(@PathVariable int idTable, @RequestBody Order order){
+        try{
+            ros.updateOrder(order);
+        } catch(OrderServicesException e){
+            Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null,e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     

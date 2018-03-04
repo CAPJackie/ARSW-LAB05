@@ -1,5 +1,23 @@
 
 var OrdersControllerModule = (function () {
+
+    var selectedOrder;
+
+   /* var getActualOrder = function () {
+        var s = document.getElementById("orders");
+        var selected = s.options[s.selectedIndex].value;
+        var callback = {
+            onSuccess: function (orden) {
+                return orden;
+            },
+            onFailed: function (error) {
+                console.log(error);
+                errorMessage();
+            }
+        }
+        RestControllerModule.getOrderById(selected, callback);
+    }*/
+
     //Private error function
     var errorMessage = function () {
         alert("There is a problem with our servers. We apologize for the inconvince, please try again later");
@@ -35,7 +53,16 @@ var OrdersControllerModule = (function () {
     };
 
     var addItemToOrder = function (orderId, item) {
-        // todo implement
+        var callback = {
+            onSuccess: function () {
+                selectedOrder[orderId].orderAmountsMap[item[0]] = item[1];
+            },
+            onFailed: function (reason) {
+                console.log(reason);
+                errorMessage();
+            }
+        }
+        RestControllerModule.updateOrder(orderId, selectedOrder,callback);
     };
     
     var loadSelectOrdersData = function (){
@@ -57,10 +84,9 @@ var OrdersControllerModule = (function () {
     var showSelectedOrder = function(){
         var s = document.getElementById("orders");
         var selected = s.options[s.selectedIndex].value;
-        console.log(selected);
         var callback = {
             onSuccess: function(order){
-                console.log(order);
+                selectedOrder = order;
                 $("#actualOrder").empty();
                 $("#actualOrder").append("<thead> <tr>  <th scope='col'>Item</th> <th scope='col'>Quantity</th> <th scope='col'></th> <th scope='col'></th>  </tr> </thead>");
                 for(dish in order[selected].orderAmountsMap){
