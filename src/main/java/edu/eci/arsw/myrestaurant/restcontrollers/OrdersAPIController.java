@@ -140,7 +140,7 @@ public class OrdersAPIController {
     @RequestMapping(method = RequestMethod.PUT, path = "{idTable}")
     public ResponseEntity<?> modifyOrder(@PathVariable int idTable, @RequestBody Order order){
         try{
-            ros.updateOrder(order);
+            ros.updateOrder(order);                  
         } catch(OrderServicesException e){
             Logger.getLogger(OrdersAPIController.class.getName()).log(Level.SEVERE, null,e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

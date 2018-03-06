@@ -21,16 +21,8 @@ var RestControllerModule = (function ()
               });
   }
 
-  var updateOrder = function (idOrder, order, callback) {
-      console.log(idOrder);
-      console.log(order);
-      /*axios({
-          method:'PUT',
-          url:'/orders/'+idOrder,
-          data: order,
-          headers: {'Content-Type': 'application/json; charset=utf-8'}
-      })*/
-      axios.put('/orders/'+idOrder, orden)
+  var updateOrder = function (order, callback) {
+      axios.put('/orders/'+order.tableNumber, order)
             .then(function(){
                 console.log("SI LLEGA")
                 callback.onSuccess();

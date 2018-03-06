@@ -53,16 +53,17 @@ var OrdersControllerModule = (function () {
     };
 
     var addItemToOrder = function (orderId, item) {
+        selectedOrder[orderId].orderAmountsMap[item[0]] = parseInt(item[1]);
         var callback = {
             onSuccess: function () {
-                selectedOrder[orderId].orderAmountsMap[item[0]] = item[1];
+                showSelectedOrder();
             },
             onFailed: function (reason) {
                 console.log(reason);
                 errorMessage();
             }
         }
-        RestControllerModule.updateOrder(orderId, selectedOrder,callback);
+        RestControllerModule.updateOrder(selectedOrder[orderId],callback);
     };
     
     var loadSelectOrdersData = function (){

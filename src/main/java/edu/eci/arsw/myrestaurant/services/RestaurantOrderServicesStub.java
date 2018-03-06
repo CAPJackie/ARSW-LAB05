@@ -85,7 +85,8 @@ public class RestaurantOrderServicesStub implements RestaurantOrderServices {
 
     @Override
     public void updateOrder(Order order) throws OrderServicesException{
-        if (!tableOrders.keySet().contains(order.getTableNumber())) throw new OrderServicesException("Mesa inexistente o ya liberada" + order.getTableNumber());
+        //System.out.println(order.getTableNumber() + "--------------"+order.getOrderAmountsMap().size());
+        if (!tableOrders.keySet().contains((Integer)order.getTableNumber())) throw new OrderServicesException("Mesa inexistente o ya liberada" + order.getTableNumber());
         for(Integer i: tableOrders.keySet()){
             if(i == order.getTableNumber()){
                 tableOrders.get(i).setOrderAmountsMap(order.getOrderAmountsMap());
