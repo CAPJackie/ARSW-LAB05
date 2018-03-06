@@ -3,20 +3,6 @@ var OrdersControllerModule = (function () {
 
     var selectedOrder;
 
-   /* var getActualOrder = function () {
-        var s = document.getElementById("orders");
-        var selected = s.options[s.selectedIndex].value;
-        var callback = {
-            onSuccess: function (orden) {
-                return orden;
-            },
-            onFailed: function (error) {
-                console.log(error);
-                errorMessage();
-            }
-        }
-        RestControllerModule.getOrderById(selected, callback);
-    }*/
 
     //Private error function
     var errorMessage = function () {
@@ -45,7 +31,16 @@ var OrdersControllerModule = (function () {
     };
 
     var updateOrder = function () {
-        // todo implement
+        var callback = {
+			onSuccess: function (){
+				showSelectedOrder();
+			},
+			onFailed: function (reason){
+				console.log(reason);
+				errorMessage();
+			}
+		}
+		RestControllerModule.updateOrder(selectedOrder[orderId],callback);
     };
 
     var deleteOrderItem = function (itemName) {
@@ -55,7 +50,7 @@ var OrdersControllerModule = (function () {
     var addItemToOrder = function (orderId, item) {
 		var name = item[0];
 		var quantity = item[1];
-		if(selectedOrder[orderId].orderAmountsMap.keySet().contains(name)){
+		if(Object.keys(selectedOrder[orderId].orderAmountsMap).includes(name)){
 			selectedOrder[orderId].orderAmountsMap[name]+= parseInt(quantity);
 		} else{
 			selectedOrder[orderId].orderAmountsMap[item[0]] = parseInt(item[1]);
@@ -97,7 +92,7 @@ var OrdersControllerModule = (function () {
                 $("#actualOrder").empty();
                 $("#actualOrder").append("<thead> <tr>  <th scope='col'>Item</th> <th scope='col'>Quantity</th> <th scope='col'></th> <th scope='col'></th>  </tr> </thead>");
                 for(dish in order[selected].orderAmountsMap){
-                    $("#actualOrder").append("<tbody> <tr> <td>"+dish+"</td> <td>"+order[selected].orderAmountsMap[dish]+"</td> <td><button type='button' class='btn'>Update</button></td> <td><button type='button' class='btn'>Delete</button></td></tr> </tbody>");
+                    $("#actualOrder").append("<tbody> <tr> <td> <input id='item' type='text' value='"+dish+"'></td> <td> <input id='item' type='text' value='"+order[selected].orderAmountsMap[dish]+"'> </td> <td><button type='button' class='btn'>Update</button></td> <td><button type='button' class='btn'>Delete</button></td></tr> </tbody>");
                 }
             },
             onFailed: function(exception){
