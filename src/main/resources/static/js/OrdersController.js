@@ -53,7 +53,13 @@ var OrdersControllerModule = (function () {
     };
 
     var addItemToOrder = function (orderId, item) {
-        selectedOrder[orderId].orderAmountsMap[item[0]] = parseInt(item[1]);
+		var name = item[0];
+		var quantity = item[1];
+		if(selectedOrder[orderId].orderAmountsMap.keySet().contains(name)){
+			selectedOrder[orderId].orderAmountsMap[name]+= parseInt(quantity);
+		} else{
+			selectedOrder[orderId].orderAmountsMap[item[0]] = parseInt(item[1]);
+		}    
         var callback = {
             onSuccess: function () {
                 showSelectedOrder();

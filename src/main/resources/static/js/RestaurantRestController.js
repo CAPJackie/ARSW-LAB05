@@ -24,7 +24,6 @@ var RestControllerModule = (function ()
   var updateOrder = function (order, callback) {
       axios.put('/orders/'+order.tableNumber, order)
             .then(function(){
-                console.log("SI LLEGA")
                 callback.onSuccess();
             })
             .catch(function(reason){
