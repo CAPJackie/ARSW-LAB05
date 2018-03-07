@@ -1,7 +1,7 @@
-
 var OrdersControllerModule = (function () {
 
     var selectedOrder;
+    var selectedOrderId;
 
 
     //Private error function
@@ -17,6 +17,7 @@ var OrdersControllerModule = (function () {
                 for(key in ordersList){
                     $("#actualTables").append("<p id='tag"+key+"'>Table "+key+ "</p>");
                     $("#actualTables").append("<table id='Table"+key+"' class='table table-dark'> <thead> <tr> <th scope='col'>Product</th> <th scope='col'>Quantity</th> </tr> </thead>");
+
                     for(map in ordersList[key].orderAmountsMap){
                         $("#Table"+key).append("<tbody> <tr> <td>"+map+"</td> <td>"+ordersList[key].orderAmountsMap[map]+"</td> </tr> </tbody>");
                     }
@@ -31,6 +32,15 @@ var OrdersControllerModule = (function () {
     };
 
     var updateOrder = function () {
+        var longitud = Object.keys(selectedOrder[selectedOrderId].orderAmountsMap).length;
+        selectedOrder[selectedOrderId].orderAmountsMap = {};
+        for(var k = 0; k < longitud; k++){
+            if(Object.keys(selectedOrder[selectedOrderId].orderAmountsMap).includes($('#dish'+k).val())){
+                selectedOrder[selectedOrderId].orderAmountsMap[$('#dish'+k).val()]+= parseInt($('#quantity'+k).val());
+            } else{
+                selectedOrder[selectedOrderId].orderAmountsMap[$('#dish'+k).val()] = parseInt($('#quantity'+k).val());
+            }
+        }
         var callback = {
 			onSuccess: function (){
 				showSelectedOrder();
@@ -40,11 +50,22 @@ var OrdersControllerModule = (function () {
 				errorMessage();
 			}
 		}
-		RestControllerModule.updateOrder(selectedOrder[orderId],callback);
+		RestControllerModule.updateOrder(selectedOrder[selectedOrderId],callback);
     };
 
     var deleteOrderItem = function (itemName) {
-        // todo implement
+        delete selectedOrder[selectedOrderId].orderAmountsMap[itemName];
+        var callback = {
+            onSuccess : function () {
+                showSelectedOrder();
+            },
+            onFailed : function (reason) {
+                console.log(reason);
+                errorMessage();
+            }
+
+        }
+        RestControllerModule.updateOrder(selectedOrder[selectedOrderId], callback);
     };
 
     var addItemToOrder = function (orderId, item) {
@@ -71,8 +92,15 @@ var OrdersControllerModule = (function () {
         var callback = {
             onSuccess: function(ordersList){
                 $("#orders").empty();
+                var isTheFirst = true;
                 for(order in ordersList){
-                    $("#orders").append("<option value='"+order+"'>Table "+order);
+                    if(isTheFirst){
+                        $("#orders").append("<option value='"+order+"' selected='selected'>Table "+order);
+                        isTheFirst = false;
+                    }
+                    else{
+                        $("#orders").append("<option value='"+order+"'>Table "+order);
+                    }
                 }
             },
             onFailed: function(exception){
@@ -89,10 +117,17 @@ var OrdersControllerModule = (function () {
         var callback = {
             onSuccess: function(order){
                 selectedOrder = order;
+                selectedOrderId = selected;
                 $("#actualOrder").empty();
                 $("#actualOrder").append("<thead> <tr>  <th scope='col'>Item</th> <th scope='col'>Quantity</th> <th scope='col'></th> <th scope='col'></th>  </tr> </thead>");
+                var cont = 0;
                 for(dish in order[selected].orderAmountsMap){
-                    $("#actualOrder").append("<tbody> <tr> <td> <input id='item' type='text' value='"+dish+"'></td> <td> <input id='item' type='text' value='"+order[selected].orderAmountsMap[dish]+"'> </td> <td><button type='button' class='btn'>Update</button></td> <td><button type='button' class='btn'>Delete</button></td></tr> </tbody>");
+                    /*console.log("#dish"+cont);
+                    var nombrePlato = $('#dish'+cont).value();
+                    console.log(nombrePlato);*/
+                    $("#actualOrder").append("<tbody> <tr> <td> <input id='dish"+cont+"' type='text' value='"+dish+"'></td> <td> <input id='quantity"+cont+"' type='text' value='"+order[selected].orderAmountsMap[dish]+"'> </td> <td><button type='button' class='btn' onclick='OrdersControllerModule.updateOrder()'>Update</button></td> <td><button id='button"+cont+"' type='button' class='btn'>Delete</button></td></tr> </tbody>");
+                    document.getElementById("button"+cont).setAttribute("onClick", "OrdersControllerModule.deleteOrderItem('"+$('#dish'+cont).val()+"');");
+                    cont++;
                 }
             },
             onFailed: function(exception){
