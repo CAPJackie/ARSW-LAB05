@@ -6,4 +6,4 @@ deployment:
   staging:
     branch: master
     heroku: 
-      appname: restaurantrestapieci2
+      appname: restaurantrestapi2
