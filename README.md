@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/CAPJackie/ARSW-LAB04.svg?style=svg)](https://circleci.com/gh/CAPJackie/ARSW-LAB04)
+[![CircleCI](https://circleci.com/gh/CAPJackie/ARSW-LAB05.svg?style=svg)](https://circleci.com/gh/CAPJackie/ARSW-LAB05)
 
-[heroku](https://restaurantrestapieci.herokuapp.com/)
+[heroku](https://restaurantrestapi2.herokuapp.com/)
 
 # JavaScript Modular Client
 
